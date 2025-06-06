@@ -58,6 +58,12 @@ class InMemoryFileSystem:
                     return result
         return None
 
+    def list_dir(self, path):
+        directory = self._navigate(path)
+        if directory and isinstance(directory, Directory):
+            return list(directory.children.keys())
+        return None
+
 
 # Run Example
 fs = InMemoryFileSystem()
@@ -70,3 +76,5 @@ print(fs.read_file("/projects/data/report.txt"))      # ➤ Sales Report 2025
 print(fs.find_file("report.txt"))                     # ➤ /projects/data/report.txt
 print(fs.find_file("config.txt"))                     # ➤ /backup/config.txt
 print(fs.find_file("missing.txt"))                    # ➤ None
+print(fs.list_dir("/projects/data"))                  # ➤ ['report.txt']
+print(fs.list_dir("/backup"))                         # ➤ ['config.txt']
